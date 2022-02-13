@@ -40,7 +40,8 @@ filename: scr/plugins/AdminPlugin.cpp, line 141-152, line 19
 PSK Encryption NONE\
 Channel: Very Long Range Very Slow (BW125kHz)\
 Region: EU433\
-filename: src/DebugConfiguration.h, line 63-66
+filename: src/mesh/channles.cpp, line 94\
+filename: src/configuration.h\
 * Meshpacket size increase to 256\
 filename: scr/mqtt/MQTT.cpp, line 189
 * NTP source changed to MeshCom infrastructure\
@@ -50,8 +51,9 @@ filename: src/plugins\PositionPlugin.cpp, line 132-144
 * QO-100 test link: borrow lorawan region setting "TW" for QRG 441.500 MHz to use qith TX Patrol (setting band start to 441.100 MHz for region TW --> default channel 2 = 441.500 MHz)\
 filename: src/mesh/RadioInterface.cpp, line 26-27
 * Mofification of position info parameters, send till channel utilization 100%
-filename: src/plugins/PostionPlugin.cpp, line 139-176
-* Clear packetpool structure to avoid overun and reconnect of GW to MQTT server
-filename: src/mqtt/MQTT.cpp, line 48-50
+filename: src/plugins/PostionPlugin.cpp, line 139-176\
+* Add firmware version number to shortname
+filename: src/plugins/AdminPlugin.cpp, line 145-146\
+
 
 
