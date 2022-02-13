@@ -212,7 +212,7 @@ typedef struct _ToRadio_PeerInfo {
 typedef struct _User {
     char id[16];
     char long_name[40];
-    char short_name[5];
+    char short_name[7];
     pb_byte_t macaddr[6];
     HardwareModel hw_model;
     bool is_licensed;

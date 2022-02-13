@@ -91,7 +91,7 @@ void Channels::initDefaultChannel(ChannelIndex chIndex)
 
     channelSettings.tx_power = 0; // default
     uint8_t defaultpskIndex = 1;
-    channelSettings.psk.bytes[0] = defaultpskIndex;
+    channelSettings.psk.bytes[0] = 0;//defaultpskIndex;
     channelSettings.psk.size = 1;
     strcpy(channelSettings.name, "");
 
