@@ -52,8 +52,6 @@ filename: src/plugins\PositionPlugin.cpp, line 132-144
 filename: src/mesh/RadioInterface.cpp, line 26-27
 * Mofification of position info parameters, send till channel utilization 100%
 filename: src/plugins/PostionPlugin.cpp, line 139-176\
-* Add firmware version number to shortname
-filename: src/plugins/AdminPlugin.cpp, line 145-146\
 
 
 
