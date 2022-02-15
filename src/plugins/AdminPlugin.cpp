@@ -16,7 +16,7 @@ AdminPlugin *adminPlugin;
 /// Also, to make setting work correctly, if someone tries to set a string to this reserved value we assume they don't really want
 /// a change.
 static const char *secretReserved = "sekrit";
-char short_call[3];
+char short_call[5];
 
 /// If buf is !empty, change it to secret
 static void hideSecret(char *buf)
@@ -142,6 +142,8 @@ void AdminPlugin::handleSetOwner(const User &o)
         short_call[0] = 'H';
         short_call[1] = 'A';
         short_call[2] = 'M';
+        short_call[2] = '5';
+        short_call[2] = '5';
         try {
             for (int i = 0; i < 3; i++)
             {
