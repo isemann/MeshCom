@@ -565,8 +565,7 @@ NodeInfo *NodeDB::getOrCreateNode(NodeNum n)
             memset(info, 0, sizeof(*info));
             info->num = n;
         }
-    }
-
+    
     return info;
 }
 
