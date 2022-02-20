@@ -140,7 +140,13 @@ typedef struct _Data {
     uint32_t request_id;
     uint32_t reply_id;
     bool is_tapback;
+    uint8_t group_id;
 } Data;
+
+typedef struct _GroupInfo {
+    pb_size_t group_count;
+    char group[10][17];
+} GroupInfo;
 
 typedef struct _LogRecord {
     char message[64];
@@ -152,9 +158,7 @@ typedef struct _LogRecord {
 typedef struct _MyNodeInfo {
     uint32_t my_node_num;
     bool has_gps;
-    uint32_t num_bands;
     char region[12];
-    char hw_model_deprecated[16];
     char firmware_version[18];
     CriticalErrorCode error_code;
     uint32_t error_address;
@@ -336,10 +340,11 @@ extern "C" {
 #define User_init_default                        {"", "", "", {0}, _HardwareModel_MIN, 0, _Team_MIN, 0, 0, 0}
 #define RouteDiscovery_init_default              {0, {0, 0, 0, 0, 0, 0, 0, 0}}
 #define Routing_init_default                     {0, {RouteDiscovery_init_default}}
-#define Data_init_default                        {_PortNum_MIN, {0, {0}}, 0, 0, 0, 0, 0, 0}
+#define Data_init_default                        {_PortNum_MIN, {0, {0}}, 0, 0, 0, 0, 0, 0, 0}
 #define MeshPacket_init_default                  {0, 0, 0, 0, {Data_init_default}, 0, 0, 0, 0, 0, _MeshPacket_Priority_MIN, 0, _MeshPacket_Delayed_MIN}
 #define NodeInfo_init_default                    {0, false, User_init_default, false, Position_init_default, 0, 0}
-#define MyNodeInfo_init_default                  {0, 0, 0, "", "", "", _CriticalErrorCode_MIN, 0, 0, 0, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, 0}
+#define GroupInfo_init_default                   {0, {"", "", "", "", "", "", "", "", "", ""}}
+#define MyNodeInfo_init_default                  {0, 0, "", "", _CriticalErrorCode_MIN, 0, 0, 0, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, 0}
 #define LogRecord_init_default                   {"", 0, "", _LogRecord_Level_MIN}
 #define FromRadio_init_default                   {0, 0, {MyNodeInfo_init_default}}
 #define ToRadio_init_default                     {0, {MeshPacket_init_default}}
@@ -348,10 +353,11 @@ extern "C" {
 #define User_init_zero                           {"", "", "", {0}, _HardwareModel_MIN, 0, _Team_MIN, 0, 0, 0}
 #define RouteDiscovery_init_zero                 {0, {0, 0, 0, 0, 0, 0, 0, 0}}
 #define Routing_init_zero                        {0, {RouteDiscovery_init_zero}}
-#define Data_init_zero                           {_PortNum_MIN, {0, {0}}, 0, 0, 0, 0, 0, 0}
+#define Data_init_zero                           {_PortNum_MIN, {0, {0}}, 0, 0, 0, 0, 0, 0, 0}
 #define MeshPacket_init_zero                     {0, 0, 0, 0, {Data_init_zero}, 0, 0, 0, 0, 0, _MeshPacket_Priority_MIN, 0, _MeshPacket_Delayed_MIN}
 #define NodeInfo_init_zero                       {0, false, User_init_zero, false, Position_init_zero, 0, 0}
-#define MyNodeInfo_init_zero                     {0, 0, 0, "", "", "", _CriticalErrorCode_MIN, 0, 0, 0, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, 0}
+#define GroupInfo_init_zero                      {0, {"", "", "", "", "", "", "", "", "", ""}}
+#define MyNodeInfo_init_zero                     {0, 0, "", "", _CriticalErrorCode_MIN, 0, 0, 0, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, 0}
 #define LogRecord_init_zero                      {"", 0, "", _LogRecord_Level_MIN}
 #define FromRadio_init_zero                      {0, 0, {MyNodeInfo_init_zero}}
 #define ToRadio_init_zero                        {0, {MeshPacket_init_zero}}
@@ -366,15 +372,15 @@ extern "C" {
 #define Data_request_id_tag                      6
 #define Data_reply_id_tag                        7
 #define Data_is_tapback_tag                      8
+#define Data_group_id_tag                        9
+#define GroupInfo_group_tag                      1
 #define LogRecord_message_tag                    1
 #define LogRecord_time_tag                       2
 #define LogRecord_source_tag                     3
 #define LogRecord_level_tag                      4
 #define MyNodeInfo_my_node_num_tag               1
 #define MyNodeInfo_has_gps_tag                   2
-#define MyNodeInfo_num_bands_tag                 3
 #define MyNodeInfo_region_tag                    4
-#define MyNodeInfo_hw_model_deprecated_tag       5
 #define MyNodeInfo_firmware_version_tag          6
 #define MyNodeInfo_error_code_tag                7
 #define MyNodeInfo_error_address_tag             8
@@ -522,7 +528,8 @@ X(a, STATIC,   SINGULAR, FIXED32,  dest,              4) \
 X(a, STATIC,   SINGULAR, FIXED32,  source,            5) \
 X(a, STATIC,   SINGULAR, FIXED32,  request_id,        6) \
 X(a, STATIC,   SINGULAR, FIXED32,  reply_id,          7) \
-X(a, STATIC,   SINGULAR, BOOL,     is_tapback,        8)
+X(a, STATIC,   SINGULAR, BOOL,     is_tapback,        8) \
+X(a, STATIC,   SINGULAR, UINT32,   group_id,          9)
 #define Data_CALLBACK NULL
 #define Data_DEFAULT NULL
 
@@ -555,12 +562,15 @@ X(a, STATIC,   SINGULAR, FLOAT,    snr,               7)
 #define NodeInfo_user_MSGTYPE User
 #define NodeInfo_position_MSGTYPE Position
 
+#define GroupInfo_FIELDLIST(X, a) \
+X(a, STATIC,   REPEATED, STRING,   group,             1)
+#define GroupInfo_CALLBACK NULL
+#define GroupInfo_DEFAULT NULL
+
 #define MyNodeInfo_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UINT32,   my_node_num,       1) \
 X(a, STATIC,   SINGULAR, BOOL,     has_gps,           2) \
-X(a, STATIC,   SINGULAR, UINT32,   num_bands,         3) \
 X(a, STATIC,   SINGULAR, STRING,   region,            4) \
-X(a, STATIC,   SINGULAR, STRING,   hw_model_deprecated,   5) \
 X(a, STATIC,   SINGULAR, STRING,   firmware_version,   6) \
 X(a, STATIC,   SINGULAR, UENUM,    error_code,        7) \
 X(a, STATIC,   SINGULAR, UINT32,   error_address,     8) \
@@ -624,6 +634,7 @@ extern const pb_msgdesc_t Routing_msg;
 extern const pb_msgdesc_t Data_msg;
 extern const pb_msgdesc_t MeshPacket_msg;
 extern const pb_msgdesc_t NodeInfo_msg;
+extern const pb_msgdesc_t GroupInfo_msg;
 extern const pb_msgdesc_t MyNodeInfo_msg;
 extern const pb_msgdesc_t LogRecord_msg;
 extern const pb_msgdesc_t FromRadio_msg;
@@ -638,6 +649,7 @@ extern const pb_msgdesc_t ToRadio_PeerInfo_msg;
 #define Data_fields &Data_msg
 #define MeshPacket_fields &MeshPacket_msg
 #define NodeInfo_fields &NodeInfo_msg
+#define GroupInfo_fields &GroupInfo_msg
 #define MyNodeInfo_fields &MyNodeInfo_msg
 #define LogRecord_fields &LogRecord_msg
 #define FromRadio_fields &FromRadio_msg
@@ -649,13 +661,14 @@ extern const pb_msgdesc_t ToRadio_PeerInfo_msg;
 #define User_size                                97
 #define RouteDiscovery_size                      40
 #define Routing_size                             42
-#define Data_size                                267
-#define MeshPacket_size                          318
+#define Data_size                                270
+#define MeshPacket_size                          321
 #define NodeInfo_size                            271
-#define MyNodeInfo_size                          457
+#define GroupInfo_size                           180
+#define MyNodeInfo_size                          434
 #define LogRecord_size                           81
-#define FromRadio_size                           466
-#define ToRadio_size                             321
+#define FromRadio_size                           443
+#define ToRadio_size                             324
 #define ToRadio_PeerInfo_size                    8
 
 #ifdef __cplusplus
