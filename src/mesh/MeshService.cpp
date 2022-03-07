@@ -210,6 +210,10 @@ NodeInfo *MeshService::refreshMyNodeInfo()
     position.battery_level = powerStatus->getBatteryChargePercent();
     updateBatteryLevel(position.battery_level);
 
+    // add some interesting telemetry info postions data for MeshCom.. param borrowing as usal ;)
+    position.sensor_id = MeshCom_SoftwareVersion;  //tells the software version, required for mqtt case driven conditions
+    position.gps_accuracy = int(airTime->channelUtilizationPercent()); //tells the airtime and channel utilization, required for planing backend structure
+
     return node;
 }
 
