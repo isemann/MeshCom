@@ -280,8 +280,8 @@ static void drawTextMessageFrame(OLEDDisplay *display, OLEDDisplayUiState *state
     // with the third parameter you can define the width after which words will
     // be wrapped. Currently only spaces and "-" are allowed for wrapping
     display->setTextAlignment(TEXT_ALIGN_LEFT);
-    display->setFont(FONT_MEDIUM);
-    String sender = (node && node->has_user) ? node->user.short_name : "???";
+    display->setFont(FONT_SMALL); //FONT_MEDIUM
+    String sender = (node && node->has_user) ? node->user.long_name : "???"; //show long name
     display->drawString(0 + x, 0 + y, sender);
     display->setFont(FONT_SMALL);
 
