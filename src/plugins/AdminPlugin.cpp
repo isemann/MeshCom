@@ -142,8 +142,8 @@ void AdminPlugin::handleSetOwner(const User &o)
         short_call[0] = 'H';
         short_call[1] = 'A';
         short_call[2] = 'M';
-        short_call[2] = '5';
-        short_call[2] = '6';
+        short_call[3] = '5';
+        short_call[4] = '7';
         try {
             for (int i = 0; i < 3; i++)
             {

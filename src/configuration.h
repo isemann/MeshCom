@@ -248,7 +248,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define myRegion EU433
 #define pskIndex none
 #define ChannelSettings_Modem_Config 3
-#define MeshCom_SoftwareVersion 56
+#define MeshCom_SoftwareVersion 57
 
 // Default Bluetooth PIN
 #define defaultBLEPin 000000
